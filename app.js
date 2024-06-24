@@ -5,14 +5,18 @@ const app=express();
 
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
+const process = require('dotenv').config();
+
 // Access your API key as an environment variable (see "Set up your API key" above)
-const genAI = new GoogleGenerativeAI(process.env.API_KEY);
+const genAI = new GoogleGenerativeAI(process.parsed.API_KEY);
 
 async function run() {
   // The Gemini 1.5 models are versatile and work with both text-only and multimodal prompts
-  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash"});
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash"}); 
 
   const prompt = "Is Virat kohli Real King"
+
+  console.log('Prompt :', prompt );
 
   const result = await model.generateContent(prompt);
   const response = await result.response;
@@ -26,6 +30,6 @@ run();
 const port=5001;
 // Start the server and listen to the port
 app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+  //console.log(`Server is running on port ${port}`);
 });
 
